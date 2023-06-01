@@ -1,6 +1,6 @@
 public static class Escape{
-public static string[] incognitasSalas = new string[4] {"a","b","c","d"} ;
-static int estadoJuego = 1;
+public static string[] incognitasSalas{get;private set;} = new string[4] {"a","b","c","d"} ;
+static int estadoJuego{get;set;} = 1;
 
 public static int GetEstadoJuego(){
     return estadoJuego;
