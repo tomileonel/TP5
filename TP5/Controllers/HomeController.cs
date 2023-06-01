@@ -15,8 +15,60 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+           return View(Index);
     }
+
+      public IActionResult Index()
+    {
+           return View(Tutorial);
+    }
+    public IActionResult Comenzar()
+{
+
+    EstadoJuego estadoJuego = ObtenerEstadoJuego();
+
+    
+    int siguienteHabitacion = estadoJuego.ObtenerSiguienteHabitacion();
+
+
+    return View("Habitacion", new { sala = siguienteHabitacion });
+}
+
+ public IActionResult Habitacion(int sala, string clave)
+    {
+
+    EstadoJuego estadoJuego = ObtenerEstadoJuego();
+
+
+    if (estadoJuego.SalaActual != sala)
+    {
+  
+        return View("Habitacion", new { sala = estadoJuego.SalaActual });
+    }
+  
+    if (estadoJuego.VerificarClave(sala, clave))
+    {
+     
+        int siguienteHabitacion = estadoJuego.ObtenerSiguienteHabitacion();
+
+       
+        if (siguienteHabitacion == -1)
+        {
+            return View("Victoria");
+        }
+
+        return View("Habitacion", new { sala = siguienteHabitacion });
+    }
+    else
+    {
+        ViewBag.Error = "La respuesta escrita fue incorrecta";
+        return View("Habitacion", new { sala = sala });
+
+
+
+    }
+
+
 
     public IActionResult Privacy()
     {
