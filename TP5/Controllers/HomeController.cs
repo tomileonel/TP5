@@ -13,61 +13,34 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
-    {
-           return View(Index);
-    }
-
+    
       public IActionResult Index()
     {
-           return View(Tutorial);
+           return View();
     }
+     public IActionResult Tutorial()
+    {
+           return View("Tutorial");
+    }
+
     public IActionResult Comenzar()
-{
-
-    EstadoJuego estadoJuego = ObtenerEstadoJuego();
-
-    
-    int siguienteHabitacion = estadoJuego.ObtenerSiguienteHabitacion();
-
-
-    return View("Habitacion", new { sala = siguienteHabitacion });
-}
-
- public IActionResult Habitacion(int sala, string clave)
     {
-
-    EstadoJuego estadoJuego = ObtenerEstadoJuego();
-
-
-    if (estadoJuego.SalaActual != sala)
-    {
-  
-        return View("Habitacion", new { sala = estadoJuego.SalaActual });
+        return View("Habitacion1");
     }
-  
-    if (estadoJuego.VerificarClave(sala, clave))
-    {
-     
-        int siguienteHabitacion = estadoJuego.ObtenerSiguienteHabitacion();
 
-       
-        if (siguienteHabitacion == -1)
-        {
-            return View("Victoria");
+    public IActionResult Habitacion(int sala, string clave)
+    {int Estado;
+        bool paso = Escape.ResolverSala(sala,clave);
+        if(paso){
+            Estado = Escape.GetEstadoJuego();
+            return View("Habitacion" + Estado.ToString());
+        }else{
+            ViewBag.Error = "La respuesta escrita fue incorrecta";
+            Estado = Escape.GetEstadoJuego();
+            return View("Habitacion" + Estado.ToString());
         }
-
-        return View("Habitacion", new { sala = siguienteHabitacion });
     }
-    else
-    {
-        ViewBag.Error = "La respuesta escrita fue incorrecta";
-        return View("Habitacion", new { sala = sala });
-
-
-
-    }
-
+    
 
 
     public IActionResult Privacy()
