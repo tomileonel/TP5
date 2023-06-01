@@ -29,7 +29,7 @@ public class HomeController : Controller
     }
 
     public IActionResult Habitacion(int sala, string clave)
-    {int Estado;
+    {int Estado; clave = clave.ToUpper();
         bool paso = Escape.ResolverSala(sala,clave);
         if(paso){
             Estado = Escape.GetEstadoJuego();
